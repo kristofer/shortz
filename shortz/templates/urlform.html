@@ -2,13 +2,22 @@
    <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
    </head>
    <body>
       <h2>Shortz a URL</h2>
       <form method="post" action="/shorturl">
          <label for="urlsubmit">What URL would you like to shorten?:</label><br>
-         <input type="text" id="urlsubmit" name="urlsubmit">
+         <input type="text" id="urlsubmit" name="urlsubmit" size=64>
+         <br/>
          <input class="submit" type="submit" value="Shortz It!">
       </form>
+
+      <div>
+         {% if shortz %}
+         <p>Shortz url <em>{{ shortz.target_url }}</em> to</p>
+         <p><a href="{{ shortz.url }}" target="_blank">{{ shortz.url }}</a></p>
+         {% endif %}
+      </div>
    </body>
 </html>

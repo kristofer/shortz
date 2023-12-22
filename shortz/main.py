@@ -4,6 +4,7 @@ import validators
 
 from fastapi import Depends, FastAPI, HTTPException, Request, Form
 from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 
 from sqlalchemy.orm import Session
 
@@ -16,9 +17,9 @@ from .config import get_settings
 
 
 app = FastAPI()
-models.Base.metadata.create_all(bind=engine)
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="shortz/templates")
-
+models.Base.metadata.create_all(bind=engine)
 
 def raise_not_found(request):
     message = f"URL '{request.url}' doesn't exist"
@@ -45,7 +46,8 @@ def shortzurl(request: Request, urlsubmit: str = Form(...), db: Session = Depend
         raise_bad_request(message="Your provided URL is not valid")
 
     db_url = crud.create_db_url(db=db, url=url)
-    return get_admin_info(db_url)
+    #return get_admin_info(db_url)
+    return templates.TemplateResponse("urlform.html", {"request": request, "shortz": get_admin_info(db_url)})
 
 @app.post("/url", response_model=schemas.URLInfo)
 def create_url(url: schemas.URLBase, db: Session = Depends(get_db)):
