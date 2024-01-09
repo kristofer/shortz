@@ -19,7 +19,7 @@ This should create a local venv folder and install the requirements.
 uvicorn shortz.main:app --reload
 ```
 
-## GEtting running on k3s
+## Getting running on k3s
 
 _hoo buoy, ja._
 
