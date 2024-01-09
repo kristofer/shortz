@@ -39,15 +39,12 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-EXPOSE 5010
+EXPOSE 8000
 
-CMD ["uvicorn", "shortz.main:app"]
+CMD ["uvicorn", "shortz.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
-Build the image with: `docker build -t k3s-kubernetes-shortz .`
-    
-To run the image use `docker run k3s-kubernetes-shortz -p 5000:5050`.
-The service will again be reachable at `http://localhost:5050`.
-_But don't do this, because we want to run it in **k3s**_
+
+Build the image with: `sudo docker build -t k3s-kubernetes-shortz .`
 
 ## k3s setup
 
@@ -57,13 +54,15 @@ If you have already set up your k3s cluster, you can skip this part, otherwise f
 
 Importing the image in k3s in one line and does not require saving the image:
 ```
-docker save k3s-kubernetes-shortz | sudo k3s ctr images import -
+sudo docker save k3s-kubernetes-shortz | sudo k3s ctr images import -
 ```
 ## Deployment configuration
 
 Now that the image has been built, it is time to configure the k3s deployment in
 [the kubernetes deployment file](deployment.yaml).
 
-You can start the service by applying the aforementioned configuration with `k3s kubectl apply -f deployment.yaml`.
+You can start the service by applying the aforementioned configuration with 
+`sudo k3s kubectl apply -f deployment.yaml`.
+
 This will spin up three pods running the previously written Python application and a load balancer.
-The latter can be reached at `http://localhost:8005`.
+The latter can be reached at `http://localhost:8000`.
