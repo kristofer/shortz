@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shortz-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shortz-pod
+  template:
+    metadata:
+      labels:
+        app: shortz-pod
+    spec:
+      containers:
+      - name: shortz-pod-image
+        image: k3s-kubernetes-flask-hello-world
+        imagePullPolicy: Never
+        resources: 
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5050
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shortz-service
+spec:
+  selector:
+    app: shortz-pod
+  ports:
+  - protocol: "TCP"
+    port: 8005
+    targetPort: 5050
+  type: LoadBalancer
