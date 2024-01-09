@@ -32,11 +32,16 @@ Inside the Dockerfile, there is the specification to create the image that will 
 The Dockerfile is as follows:
 ```
 FROM python:3.10-alpine
+
 WORKDIR /app
+
 COPY . .
+
 RUN pip install -r requirements.txt
-EXPOSE 5000
-CMD ["python", "app.py"]
+
+EXPOSE 5010
+
+CMD ["uvicorn", "shortz.main:app"]
 ```
 Build the image with: `docker build -t k3s-kubernetes-shortz .`
     

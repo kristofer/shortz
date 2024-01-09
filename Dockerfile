@@ -6,6 +6,6 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-EXPOSE 5010
+EXPOSE 8000
 
-CMD ["uvicorn", "shortz.main:app"]
+CMD ["uvicorn", "shortz.main:app", "--host", "0.0.0.0", "--port", "8000"]
