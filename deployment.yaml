@@ -33,6 +33,6 @@ spec:
     app: shortz-pod
   ports:
   - protocol: "TCP"
-    port: 8005
+    port: 8000
     targetPort: 5000
   type: LoadBalancer
