@@ -23,6 +23,8 @@ uvicorn shortz.main:app --reload
 
 _hoo buoy, ja._
 
+Probably might maybe need `sudo` in front many of these docker and k3s commands.
+
 ## Docker
 
 Inside the Dockerfile, there is the specification to create the image that will be later deployed in the k3s cluster.
@@ -40,6 +42,7 @@ Build the image with: `docker build -t k3s-kubernetes-shortz .`
     
 To run the image use `docker run k3s-kubernetes-shortz -p 5000:5050`.
 The service will again be reachable at `http://localhost:5050`.
+_But don't do this, because we want to run it in **k3s**_
 
 ## k3s setup
 
@@ -56,6 +59,6 @@ docker save k3s-kubernetes-shortz | sudo k3s ctr images import -
 Now that the image has been built, it is time to configure the k3s deployment in
 [the kubernetes deployment file](deployment.yaml).
 
-You can start the service by applying the aforementioned configuration with `k3s kubectl apply -f deployment.yml`.
+You can start the service by applying the aforementioned configuration with `k3s kubectl apply -f deployment.yaml`.
 This will spin up three pods running the previously written Python application and a load balancer.
 The latter can be reached at `http://localhost:8005`.
