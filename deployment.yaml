@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: shortz-pod-image
-        image: k3s-kubernetes-flask-hello-world
+        image: k3s-kubernetes-shortz
         imagePullPolicy: Never
         resources: 
           limits:
